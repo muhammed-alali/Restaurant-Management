@@ -1,0 +1,6 @@
+# Keep shell scripts LF-only so they work inside Linux containers,
+# regardless of Windows git settings (core.autocrlf=true).
+*.sh text eol=lf
+Dockerfile* text eol=lf
+docker-compose*.yml text eol=lf
+.dockerignore text eol=lf

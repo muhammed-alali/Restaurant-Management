@@ -1,0 +1,66 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Next.js build output
+.next
+out
+
+# Environment files (injected at runtime by Docker Compose)
+.env
+.env.*
+.env.local
+.env.development
+.env.production
+
+# Local SQLite databases (production uses its own Docker volume)
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+prisma/dev.db
+prisma/dev.db-journal
+prisma/dev.db-shm
+prisma/dev.db-wal
+prisma/data
+data
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+*.pem
+Thumbs.db
+
+# IDE / tooling
+.vscode
+.idea
+.zenflow
+.zencoder
+*.swp
+*.swo
+
+# Git
+.git
+.gitignore
+
+# Docker
+docker-compose*.yml
+.dockerignore
+
+# Test files
+*.test.ts
+*.spec.ts
+__tests__
+
+# TypeScript build info
+tsconfig.tsbuildinfo
+
+# Misc
+README.md
+AGENTS.md
+*.log

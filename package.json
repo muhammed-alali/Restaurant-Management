@@ -9,7 +9,16 @@
     "lint": "eslint",
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push",
-    "prisma:seed": "tsx prisma/seed.ts"
+    "prisma:seed": "tsx prisma/seed.ts",
+    "docker:prod:build": "docker compose --env-file .env.production -f docker-compose.yml build",
+    "docker:prod:up": "docker compose --env-file .env.production -f docker-compose.yml up -d --build",
+    "docker:prod:down": "docker compose --env-file .env.production -f docker-compose.yml down",
+    "docker:prod:restart": "docker compose --env-file .env.production -f docker-compose.yml restart app",
+    "docker:prod:logs": "docker compose --env-file .env.production -f docker-compose.yml logs -f app",
+    "docker:prod:ps": "docker compose --env-file .env.production -f docker-compose.yml ps",
+    "docker:dev:up": "docker compose --env-file .env -f docker-compose.dev.yml up -d --build",
+    "docker:dev:down": "docker compose --env-file .env -f docker-compose.dev.yml down",
+    "docker:dev:logs": "docker compose --env-file .env -f docker-compose.dev.yml logs -f"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

@@ -1,0 +1,21 @@
+FROM node:24-alpine
+WORKDIR /app
+
+RUN apk add --no-cache libc6-compat openssl
+
+COPY package.json package-lock.json ./
+COPY prisma ./prisma/
+
+RUN npm ci
+RUN npx prisma generate
+
+COPY . .
+
+EXPOSE 3000
+
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
+# Applies db push / seed on start (see docker-compose.dev.yml), then runs dev server
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["npm", "run", "dev"]

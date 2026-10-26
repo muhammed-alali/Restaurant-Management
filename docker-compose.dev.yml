@@ -1,0 +1,36 @@
+name: restaurant-management-dev
+
+services:
+  restaurant-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    restart: unless-stopped
+    init: true
+    ports:
+      # 3020 by default so it never collides with a local dev server on 3000/3001
+      - "${DEV_APP_PORT:-3020}:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+      - DATABASE_URL=${DEV_DATABASE_URL:-file:./dev.db}
+      - AUTH_SECRET=${AUTH_SECRET:-dev-secret-change-me-in-production-000000}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-dev-secret-change-me-in-production-000000}
+      - AUTH_TRUST_HOST=true
+      - NEXTAUTH_URL=${DEV_NEXTAUTH_URL:-http://localhost:3020}
+      - DB_PUSH=true
+      - RUN_MIGRATIONS=false
+      - SEED_DB=${SEED_DB:-true}
+    volumes:
+      # Hot-reload: mount source code
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    networks:
+      - restaurant-net-dev
+
+networks:
+  restaurant-net-dev:
+    name: restaurant-management-dev-net
+    driver: bridge

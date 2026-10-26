@@ -1,0 +1,59 @@
+name: restaurant-management-prod
+
+services:
+  # One-shot service: applies Prisma migrations (and optionally seeds demo data)
+  # before the application container is allowed to start.
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: migrator
+    restart: "no"
+    env_file:
+      - .env.production
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - restaurant-db:/app/data
+    networks:
+      - restaurant-net
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+    restart: unless-stopped
+    init: true
+    env_file:
+      - .env.production
+    environment:
+      # Internal container port. The public port is APP_PORT (see below).
+      - NODE_ENV=production
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+    ports:
+      - "${APP_PORT:-3010}:3000"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    volumes:
+      - restaurant-db:/app/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/api/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+      - restaurant-net
+
+volumes:
+  restaurant-db:
+    name: restaurant-management-prod-db
+    driver: local
+
+networks:
+  restaurant-net:
+    name: restaurant-management-prod-net
+    driver: bridge
