@@ -1,0 +1,119 @@
+[
+  {
+    "id": "item-1",
+    "name": "برغر كلاسيك",
+    "description": "برغر لحم بقري مع جبنة وخس وطماطم",
+    "price": 120,
+    "image": "/images/food/burger_classic.svg",
+    "category": "برغر",
+    "isAvailable": true
+  },
+  {
+    "id": "item-2",
+    "name": "برغر بالجبنة",
+    "description": "برغر مزدوج مع جبنة شيدر مذابة",
+    "price": 140,
+    "image": "/images/food/burger_cheese.svg",
+    "category": "برغر",
+    "isAvailable": true
+  },
+  {
+    "id": "item-3",
+    "name": "بيتزا مارجريتا",
+    "description": "بيتزا بصوص الطماطم والجبنة الموزاريلا الطازجة",
+    "price": 180,
+    "image": "/images/food/pizza_margherita.svg",
+    "category": "بيتزا",
+    "isAvailable": true
+  },
+  {
+    "id": "item-4",
+    "name": "بيتزا خضار",
+    "description": "بيتزا بالخضار المشكلة الطازجة وجبنة الموزاريلا",
+    "price": 160,
+    "image": "/images/food/pizza_veggie.svg",
+    "category": "بيتزا",
+    "isAvailable": true
+  },
+  {
+    "id": "item-5",
+    "name": "شاورما دجاج",
+    "description": "شاورما دجاج متبلة مع صوص الثوم والمخلل",
+    "price": 150,
+    "image": "/images/food/shawarma_chicken.svg",
+    "category": "مشاوي",
+    "isAvailable": true
+  },
+  {
+    "id": "item-6",
+    "name": "دجاج مشوي",
+    "description": "دجاج مشوي على الفحم متبل بالأعشاب والبهارات",
+    "price": 160,
+    "image": "/images/food/grilled_chicken.svg",
+    "category": "مشاوي",
+    "isAvailable": true
+  },
+  {
+    "id": "item-7",
+    "name": "أجنحة دجاج",
+    "description": "أجنحة دجاج مقرمشة مع صوص حار أو باربيكيو",
+    "price": 110,
+    "image": "/images/food/chicken_wings.svg",
+    "category": "مشاوي",
+    "isAvailable": false
+  },
+  {
+    "id": "item-8",
+    "name": "سلطة خضراء",
+    "description": "تشكيلة خضروات طازجة مع زيت الزيتون ودبس الرمان",
+    "price": 90,
+    "image": "/images/food/green_salad.svg",
+    "category": "سلطات",
+    "isAvailable": true
+  },
+  {
+    "id": "item-9",
+    "name": "سلطة سيزر",
+    "description": "خس روماني طازج مع قطع الخبز المحمص والجبن",
+    "price": 100,
+    "image": "/images/food/caesar_salad.svg",
+    "category": "سلطات",
+    "isAvailable": true
+  },
+  {
+    "id": "item-10",
+    "name": "عصير برتقال",
+    "description": "عصير برتقال طبيعي معصور طازج",
+    "price": 60,
+    "image": "/images/food/orange_juice.svg",
+    "category": "مشروبات",
+    "isAvailable": true
+  },
+  {
+    "id": "item-11",
+    "name": "كولا",
+    "description": "مشروب غازي مثلج ومنعش",
+    "price": 25,
+    "image": "/images/food/cola.svg",
+    "category": "مشروبات",
+    "isAvailable": true
+  },
+  {
+    "id": "item-12",
+    "name": "بطاطا مقلية",
+    "description": "أصابع بطاطس مقرمشة متبلة ذهبية",
+    "price": 70,
+    "image": "/images/food/french_fries.svg",
+    "category": "مقبلات",
+    "isAvailable": true
+  },
+  {
+    "id": "item-13",
+    "name": "باستا ألفريدو",
+    "description": "مكرونة فوتوتشيني بصلصة الكريمة والفطر",
+    "price": 130,
+    "image": "/images/food/pasta_alfredo.svg",
+    "category": "مقبلات",
+    "isAvailable": true
+  }
+]

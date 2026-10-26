@@ -1,0 +1,8 @@
+[
+  { "id": "cat-burger", "name": "برغر" },
+  { "id": "cat-pizza", "name": "بيتزا" },
+  { "id": "cat-grill", "name": "مشاوي" },
+  { "id": "cat-salad", "name": "سلطات" },
+  { "id": "cat-drinks", "name": "مشروبات" },
+  { "id": "cat-sides", "name": "مقبلات" }
+]

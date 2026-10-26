@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ─── User ──────────────────────────────────────────────────────────
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  username  String   @unique
+  password  String
+  role      String   @default("STAFF") // ADMIN | STAFF | CHEF | DELIVERY_STAFF
+  createdAt DateTime @default(now())
+
+  assignedDeliveries Delivery[] @relation("AssignedDeliveries")
+}
+
+// ─── RestaurantTable ───────────────────────────────────────────────
+model RestaurantTable {
+  id        String   @id @default(cuid())
+  number    Int      @unique
+  capacity  Int
+  status    String   @default("AVAILABLE") // AVAILABLE | OCCUPIED | RESERVED
+  createdAt DateTime @default(now())
+
+  orders Order[]
+}
+
+// ─── MenuCategory ──────────────────────────────────────────────────
+model MenuCategory {
+  id        String     @id @default(cuid())
+  name      String     @unique
+  createdAt DateTime   @default(now())
+
+  menuItems MenuItem[]
+}
+
+// ─── MenuItem ──────────────────────────────────────────────────────
+model MenuItem {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  price       Float
+  image       String?
+  isAvailable Boolean  @default(true)
+  categoryId  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  category   MenuCategory @relation(fields: [categoryId], references: [id])
+  orderItems OrderItem[]
+}
+
+// ─── Order ─────────────────────────────────────────────────────────
+model Order {
+  id          String   @id @default(cuid())
+  orderNumber Int      @unique
+  type        String   @default("DINE_IN") // DINE_IN | TAKEAWAY | DELIVERY
+  status      String   @default("NEW")     // NEW | PREPARING | READY | COMPLETED | CANCELLED
+  tableId     String?
+  notes       String?
+  total       Float    @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  table    RestaurantTable? @relation(fields: [tableId], references: [id])
+  items    OrderItem[]
+  delivery Delivery?
+}
+
+// ─── OrderItem ─────────────────────────────────────────────────────
+model OrderItem {
+  id           String  @id @default(cuid())
+  orderId      String
+  menuItemId   String
+  menuItemName String  // Snapshot of name at order time
+  unitPrice    Float   // Snapshot of price at order time
+  quantity     Int
+  notes        String?
+
+  order    Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  menuItem MenuItem @relation(fields: [menuItemId], references: [id])
+}
+
+// ─── Delivery ──────────────────────────────────────────────────────
+model Delivery {
+  id              String   @id @default(cuid())
+  orderId         String   @unique
+  recipientName   String
+  phone           String
+  address         String
+  status          String   @default("NEW") // matches DeliveryStatus
+  bikeNumber      Int?     @default(1)
+  assignedStaffId String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  order         Order @relation(fields: [orderId], references: [id])
+  assignedStaff User? @relation("AssignedDeliveries", fields: [assignedStaffId], references: [id])
+}

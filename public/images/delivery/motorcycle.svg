@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="motorBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EFF6FF" />
+      <stop offset="100%" stop-color="#DBEAFE" />
+    </linearGradient>
+    <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F06436" />
+      <stop offset="100%" stop-color="#C2410C" />
+    </linearGradient>
+    <linearGradient id="boxGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563EB" />
+      <stop offset="100%" stop-color="#1D4ED8" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background Card -->
+  <rect width="400" height="300" rx="16" fill="url(#motorBg)"/>
+
+  <!-- Speed lines -->
+  <path d="M 60 110 L 100 110 M 40 140 L 90 140 M 55 170 L 85 170" stroke="#93C5FD" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Rear Wheel -->
+  <circle cx="140" cy="210" r="45" fill="#1E293B" stroke="#64748B" stroke-width="8"/>
+  <circle cx="140" cy="210" r="22" fill="#94A3B8"/>
+  <circle cx="140" cy="210" r="8" fill="#F8FAFC"/>
+
+  <!-- Front Wheel -->
+  <circle cx="295" cy="210" r="45" fill="#1E293B" stroke="#64748B" stroke-width="8"/>
+  <circle cx="295" cy="210" r="22" fill="#94A3B8"/>
+  <circle cx="295" cy="210" r="8" fill="#F8FAFC"/>
+
+  <!-- Exhaust Pipe -->
+  <path d="M 130 205 L 100 205 Q 90 205 90 195" fill="none" stroke="#64748B" stroke-width="8" stroke-linecap="round"/>
+
+  <!-- Chassis / Frame -->
+  <path d="M 140 210 L 180 155 L 230 155 L 260 115 L 285 200 L 295 210" fill="none" stroke="#334155" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Footboard -->
+  <rect x="180" y="195" width="60" height="10" rx="5" fill="#1E293B"/>
+
+  <!-- Delivery Food Box -->
+  <rect x="105" y="90" width="75" height="70" rx="8" fill="url(#boxGrad)" stroke="#1E40AF" stroke-width="3"/>
+  <rect x="105" y="115" width="75" height="6" fill="#FBBF24"/>
+  <!-- Food Icon on Box -->
+  <path d="M 132 135 Q 142 125 153 135" stroke="#FFFFFF" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <rect x="135" y="137" width="15" height="12" rx="3" fill="#FFFFFF"/>
+
+  <!-- Scooter Body / Seat -->
+  <path d="M 175 140 Q 210 135 220 155 L 210 195 L 185 195 Z" fill="url(#bodyGrad)"/>
+  <!-- Front Apron / Shield -->
+  <path d="M 245 125 L 275 125 L 285 185 L 255 185 Z" fill="url(#bodyGrad)"/>
+
+  <!-- Handlebar & Steering Column -->
+  <path d="M 285 205 L 265 110 L 245 105" fill="none" stroke="#1E293B" stroke-width="7" stroke-linecap="round"/>
+  <!-- Grips -->
+  <circle cx="245" cy="105" r="6" fill="#F06436"/>
+
+  <!-- Headlight -->
+  <path d="M 270 120 L 282 125 L 282 138 L 270 133 Z" fill="#FEF08A" stroke="#EAB308" stroke-width="2"/>
+  <polygon points="282,125 330,115 330,150 282,138" fill="#FEF08A" opacity="0.35"/>
+
+  <!-- Seat Cushion -->
+  <path d="M 170 135 Q 195 128 215 135" stroke="#1E293B" stroke-width="12" stroke-linecap="round"/>
+</svg>

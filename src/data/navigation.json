@@ -1,0 +1,37 @@
+[
+  {
+    "id": "orders",
+    "label": "الطلبات",
+    "href": "/orders",
+    "icon": "OrderedListOutlined",
+    "allowedRoles": ["ADMIN", "STAFF"]
+  },
+  {
+    "id": "tables",
+    "label": "الطاولات",
+    "href": "/tables",
+    "icon": "AppstoreOutlined",
+    "allowedRoles": ["ADMIN", "STAFF"]
+  },
+  {
+    "id": "kitchen",
+    "label": "المطبخ",
+    "href": "/kitchen",
+    "icon": "FireOutlined",
+    "allowedRoles": ["ADMIN", "CHEF"]
+  },
+  {
+    "id": "menu",
+    "label": "المنيو",
+    "href": "/menu",
+    "icon": "BookOutlined",
+    "allowedRoles": ["ADMIN", "STAFF"]
+  },
+  {
+    "id": "deliveries",
+    "label": "التوصيل",
+    "href": "/deliveries",
+    "icon": "CarOutlined",
+    "allowedRoles": ["ADMIN", "STAFF", "DELIVERY_STAFF"]
+  }
+]

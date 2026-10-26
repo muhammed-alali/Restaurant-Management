@@ -1,0 +1,53 @@
+[
+  {
+    "orderNumber": 101,
+    "type": "DINE_IN",
+    "status": "PREPARING",
+    "tableNumber": 4,
+    "notes": "بدون بصل في البرغر",
+    "createdAt": "2026-10-25T13:40:00.000Z",
+    "items": [
+      { "menuItemName": "برغر كلاسيك", "unitPrice": 120, "quantity": 2, "notes": "بدون بصل" },
+      { "menuItemName": "بطاطا مقلية", "unitPrice": 70, "quantity": 1, "notes": null },
+      { "menuItemName": "كولا", "unitPrice": 25, "quantity": 2, "notes": null }
+    ]
+  },
+  {
+    "orderNumber": 102,
+    "type": "DINE_IN",
+    "status": "READY",
+    "tableNumber": 7,
+    "notes": "زيادة صوص الثوم",
+    "createdAt": "2026-10-25T13:50:00.000Z",
+    "items": [
+      { "menuItemName": "بيتزا مارجريتا", "unitPrice": 180, "quantity": 1, "notes": null },
+      { "menuItemName": "سلطة سيزر", "unitPrice": 100, "quantity": 1, "notes": null },
+      { "menuItemName": "عصير برتقال", "unitPrice": 60, "quantity": 2, "notes": null }
+    ]
+  },
+  {
+    "orderNumber": 103,
+    "type": "DELIVERY",
+    "status": "NEW",
+    "tableNumber": null,
+    "notes": "الدفع عند الاستلام",
+    "createdAt": "2026-10-25T14:10:00.000Z",
+    "items": [
+      { "menuItemName": "دجاج مشوي", "unitPrice": 160, "quantity": 1, "notes": null },
+      { "menuItemName": "سلطة خضراء", "unitPrice": 90, "quantity": 1, "notes": null },
+      { "menuItemName": "بطاطا مقلية", "unitPrice": 70, "quantity": 1, "notes": null }
+    ]
+  },
+  {
+    "orderNumber": 104,
+    "type": "TAKEAWAY",
+    "status": "COMPLETED",
+    "tableNumber": null,
+    "notes": "استلام سريع",
+    "createdAt": "2026-10-25T13:15:00.000Z",
+    "items": [
+      { "menuItemName": "شاورما دجاج", "unitPrice": 150, "quantity": 2, "notes": null },
+      { "menuItemName": "كولا", "unitPrice": 25, "quantity": 2, "notes": null }
+    ]
+  }
+]
