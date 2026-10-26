@@ -15,7 +15,7 @@ import { BikeCard } from '@/components/deliveries/BikeCard';
 import { DeliveryDetailPanel } from '@/components/deliveries/DeliveryDetailPanel';
 import { DeliveriesTable } from '@/components/deliveries/DeliveriesTable';
 import { NewOrderModal } from '@/components/orders/NewOrderModal';
-import { ReceiptModal } from '@/components/orders/ReceiptModal';
+import { ReceiptPrinter } from '@/components/orders/ReceiptPrinter';
 import { useDeliveries } from '@/hooks/useDeliveries';
 import { useOrders } from '@/hooks/useOrders';
 import { useMenu } from '@/hooks/useMenu';
@@ -334,7 +334,7 @@ export function DeliveriesView() {
       />
 
       {/* Receipt Modal */}
-      <ReceiptModal
+      <ReceiptPrinter
         order={printOrder}
         open={Boolean(printOrder)}
         onClose={() => setPrintOrder(null)}

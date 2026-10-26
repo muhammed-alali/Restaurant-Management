@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React, { useState, useMemo } from 'react';
-import styled from 'styled-components';
-import { Button, Segmented, Space, message, Badge, Drawer } from 'antd';
-import { useMediaQuery } from 'react-responsive';
+import React, { useState, useMemo } from "react";
+import styled from "styled-components";
+import { Button, Segmented, Space, message, Badge, Drawer } from "antd";
+import { useMediaQuery } from "react-responsive";
 import {
   PlusOutlined,
   ReloadOutlined,
@@ -12,21 +12,21 @@ import {
   CarOutlined,
   UnorderedListOutlined,
   FileTextOutlined,
-} from '@ant-design/icons';
-import { PageHeader } from '@/components/common/PageHeader';
-import { SearchInput } from '@/components/common/SearchInput';
-import { ConfirmDialog } from '@/components/common/ConfirmDialog';
-import { TableCard } from '@/components/tables/TableCard';
-import { OrderTouchCard } from '@/components/orders/OrderTouchCard';
-import { PosBillPanel } from '@/components/orders/PosBillPanel';
-import { NewOrderModal } from '@/components/orders/NewOrderModal';
-import { ReceiptModal } from '@/components/orders/ReceiptModal';
-import { useOrders } from '@/hooks/useOrders';
-import { useMenu } from '@/hooks/useMenu';
-import { useTables } from '@/hooks/useTables';
-import type { Order, RestaurantTable, OrderType } from '@/types';
+} from "@ant-design/icons";
+import { PageHeader } from "@/components/common/PageHeader";
+import { SearchInput } from "@/components/common/SearchInput";
+import { ConfirmDialog } from "@/components/common/ConfirmDialog";
+import { TableCard } from "@/components/tables/TableCard";
+import { OrderTouchCard } from "@/components/orders/OrderTouchCard";
+import { PosBillPanel } from "@/components/orders/PosBillPanel";
+import { NewOrderModal } from "@/components/orders/NewOrderModal";
+import { ReceiptPrinter } from "@/components/orders/ReceiptPrinter";
+import { useOrders } from "@/hooks/useOrders";
+import { useMenu } from "@/hooks/useMenu";
+import { useTables } from "@/hooks/useTables";
+import type { Order, RestaurantTable, OrderType } from "@/types";
 
-type PosSection = 'TABLES' | 'TAKEAWAY' | 'DELIVERY' | 'ALL';
+type PosSection = "TABLES" | "TAKEAWAY" | "DELIVERY" | "ALL";
 
 const SplitContainer = styled.div`
   display: flex;
@@ -68,8 +68,8 @@ const MobileBillFloatingBar = styled.div`
     left: 20px;
     right: 20px;
     z-index: 99;
-    background: #172A43;
-    color: #FFFFFF;
+    background: #172a43;
+    color: #ffffff;
     border-radius: 12px;
     padding: 12px 18px;
     justify-content: space-between;
@@ -84,10 +84,10 @@ const ToolbarRow = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 12px;
-  background: #FFFFFF;
+  background: #ffffff;
   padding: 12px 16px;
   border-radius: 12px;
-  border: 1px solid #E2E8F0;
+  border: 1px solid #e2e8f0;
 
   @media (max-width: 768px) {
     padding: 10px 12px;
@@ -135,12 +135,12 @@ const CardsGrid = styled.div`
 `;
 
 const EmptyNotice = styled.div`
-  background: #FFFFFF;
+  background: #ffffff;
   border-radius: 12px;
-  border: 1px dashed #CBD5E1;
+  border: 1px dashed #cbd5e1;
   padding: 40px 20px;
   text-align: center;
-  color: #64748B;
+  color: #64748b;
   font-size: 14px;
 `;
 
@@ -160,12 +160,17 @@ export function OrdersView() {
   const { allItems: menuItems } = useMenu();
   const { allTables: tables, refresh: refreshTables } = useTables();
 
-  const [activeSection, setActiveSection] = useState<PosSection>('TABLES');
+  const [activeSection, setActiveSection] = useState<PosSection>("TABLES");
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
-  const [selectedTable, setSelectedTable] = useState<RestaurantTable | null>(null);
+  const [selectedTable, setSelectedTable] = useState<RestaurantTable | null>(
+    null,
+  );
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalInitialTableId, setModalInitialTableId] = useState<string | undefined>();
-  const [modalInitialType, setModalInitialType] = useState<OrderType>('DINE_IN');
+  const [modalInitialTableId, setModalInitialTableId] = useState<
+    string | undefined
+  >();
+  const [modalInitialType, setModalInitialType] =
+    useState<OrderType>("DINE_IN");
   const [confirmCancelId, setConfirmCancelId] = useState<string | null>(null);
   const [printOrder, setPrintOrder] = useState<Order | null>(null);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
@@ -175,7 +180,7 @@ export function OrdersView() {
   const tableOrderMap = useMemo(() => {
     const map = new Map<string, Order>();
     allOrders.forEach((o) => {
-      if (o.tableId && o.status !== 'COMPLETED' && o.status !== 'CANCELLED') {
+      if (o.tableId && o.status !== "COMPLETED" && o.status !== "CANCELLED") {
         map.set(o.tableId, o);
       }
     });
@@ -187,9 +192,9 @@ export function OrdersView() {
     () =>
       allOrders.filter(
         (o) =>
-          o.type === 'TAKEAWAY' &&
-          o.status !== 'COMPLETED' &&
-          o.status !== 'CANCELLED' &&
+          o.type === "TAKEAWAY" &&
+          o.status !== "COMPLETED" &&
+          o.status !== "CANCELLED" &&
           (searchQuery ? String(o.orderNumber).includes(searchQuery) : true),
       ),
     [allOrders, searchQuery],
@@ -199,9 +204,9 @@ export function OrdersView() {
     () =>
       allOrders.filter(
         (o) =>
-          o.type === 'DELIVERY' &&
-          o.status !== 'COMPLETED' &&
-          o.status !== 'CANCELLED' &&
+          o.type === "DELIVERY" &&
+          o.status !== "COMPLETED" &&
+          o.status !== "CANCELLED" &&
           (searchQuery ? String(o.orderNumber).includes(searchQuery) : true),
       ),
     [allOrders, searchQuery],
@@ -222,8 +227,8 @@ export function OrdersView() {
         setMobileDrawerOpen(false);
       }
     };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // Handle clicking on a table card
@@ -244,21 +249,27 @@ export function OrdersView() {
   // Handle start new order for a table
   const handleStartOrderForTable = (table: RestaurantTable) => {
     setModalInitialTableId(table.id);
-    setModalInitialType('DINE_IN');
+    setModalInitialType("DINE_IN");
     setModalOpen(true);
   };
 
   // Handle start new takeaway order
   const handleStartNewTakeawayOrder = () => {
     setModalInitialTableId(undefined);
-    setModalInitialType('TAKEAWAY');
+    setModalInitialType("TAKEAWAY");
     setModalOpen(true);
   };
 
   // Handle start general new order
   const handleStartGeneralNewOrder = () => {
     setModalInitialTableId(undefined);
-    setModalInitialType(activeSection === 'DELIVERY' ? 'DELIVERY' : activeSection === 'TAKEAWAY' ? 'TAKEAWAY' : 'DINE_IN');
+    setModalInitialType(
+      activeSection === "DELIVERY"
+        ? "DELIVERY"
+        : activeSection === "TAKEAWAY"
+          ? "TAKEAWAY"
+          : "DINE_IN",
+    );
     setModalOpen(true);
   };
 
@@ -281,18 +292,18 @@ export function OrdersView() {
   const handleSettleOrder = async (order: Order) => {
     try {
       setSettling(true);
-      const updated = await updateOrderStatus(order.id, 'COMPLETED');
+      const updated = await updateOrderStatus(order.id, "COMPLETED");
       if (updated) {
         message.success(`تم تسكير الحساب بنجاح للطلب #${order.orderNumber}`);
         // Free the table locally and open receipt for printing
-        setPrintOrder({ ...order, status: 'COMPLETED' });
+        setPrintOrder({ ...order, status: "COMPLETED" });
         setSelectedOrder(null);
         setSelectedTable(null);
         setMobileDrawerOpen(false);
         await Promise.all([refreshOrders(), refreshTables()]);
       }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'تعذر تسكير الحساب';
+      const msg = err instanceof Error ? err.message : "تعذر تسكير الحساب";
       message.error(msg);
     } finally {
       setSettling(false);
@@ -314,7 +325,11 @@ export function OrdersView() {
     if (selectedTable) {
       const activeOrder = tableOrderMap.get(selectedTable.id);
       if (activeOrder) {
-        if (!selectedOrder || selectedOrder.id !== activeOrder.id || selectedOrder.status !== activeOrder.status) {
+        if (
+          !selectedOrder ||
+          selectedOrder.id !== activeOrder.id ||
+          selectedOrder.status !== activeOrder.status
+        ) {
           setSelectedOrder(activeOrder);
         }
       } else {
@@ -325,14 +340,16 @@ export function OrdersView() {
     }
   }, [selectedTable, tableOrderMap, selectedOrder]);
 
-  const handleCreateOrder = async (orderData: Parameters<typeof createOrder>[0]) => {
+  const handleCreateOrder = async (
+    orderData: Parameters<typeof createOrder>[0],
+  ) => {
     const res = await createOrder(orderData);
     if (res) {
       setSelectedOrder(res);
       if (res.tableId) {
         const tbl = tables.find((t) => t.id === res.tableId);
         if (tbl) {
-          setSelectedTable({ ...tbl, status: 'OCCUPIED' });
+          setSelectedTable({ ...tbl, status: "OCCUPIED" });
         }
       }
       await Promise.all([refreshOrders(), refreshTables()]);
@@ -351,9 +368,9 @@ export function OrdersView() {
 
   const handleConfirmCancel = async () => {
     if (!confirmCancelId) return;
-    const ok = await updateOrderStatus(confirmCancelId, 'CANCELLED');
+    const ok = await updateOrderStatus(confirmCancelId, "CANCELLED");
     if (ok) {
-      message.success('تم إلغاء الطلب بنجاح');
+      message.success("تم إلغاء الطلب بنجاح");
       setSelectedOrder(null);
       setSelectedTable(null);
       setMobileDrawerOpen(false);
@@ -369,7 +386,7 @@ export function OrdersView() {
   return (
     <div>
       <PageHeader
-        title="شاشة الطلبات والكاشير (القاصة)"
+        title="شاشة الطلبات والكاشير"
         subtitle="إدارة طاولات الصالة، طلبات السفري والتوصيل، وتسكير الحسابات وطباعة الفيش بلمسة واحدة"
         actions={
           <Space>
@@ -387,7 +404,11 @@ export function OrdersView() {
               type="primary"
               icon={<PlusOutlined />}
               onClick={handleStartGeneralNewOrder}
-              style={{ backgroundColor: '#F06436', borderColor: '#F06436', fontWeight: 600 }}
+              style={{
+                backgroundColor: "#F06436",
+                borderColor: "#F06436",
+                fontWeight: 600,
+              }}
             >
               + طلب جديد
             </Button>
@@ -410,12 +431,14 @@ export function OrdersView() {
                         <ShopOutlined />
                         <span>طاولات الصالة</span>
                         <Badge
-                          count={tables.filter((t) => t.status === 'OCCUPIED').length}
-                          style={{ backgroundColor: '#2563EB' }}
+                          count={
+                            tables.filter((t) => t.status === "OCCUPIED").length
+                          }
+                          style={{ backgroundColor: "#2563EB" }}
                         />
                       </Space>
                     ),
-                    value: 'TABLES',
+                    value: "TABLES",
                   },
                   {
                     label: (
@@ -424,11 +447,11 @@ export function OrdersView() {
                         <span>سفري</span>
                         <Badge
                           count={takeawayOrders.length}
-                          style={{ backgroundColor: '#F06436' }}
+                          style={{ backgroundColor: "#F06436" }}
                         />
                       </Space>
                     ),
-                    value: 'TAKEAWAY',
+                    value: "TAKEAWAY",
                   },
                   {
                     label: (
@@ -437,11 +460,11 @@ export function OrdersView() {
                         <span>توصيل</span>
                         <Badge
                           count={deliveryOrders.length}
-                          style={{ backgroundColor: '#16A34A' }}
+                          style={{ backgroundColor: "#16A34A" }}
                         />
                       </Space>
                     ),
-                    value: 'DELIVERY',
+                    value: "DELIVERY",
                   },
                   {
                     label: (
@@ -450,10 +473,10 @@ export function OrdersView() {
                         <span>كافة الطلبات</span>
                       </Space>
                     ),
-                    value: 'ALL',
+                    value: "ALL",
                   },
                 ]}
-                size={isMobile ? 'middle' : 'large'}
+                size={isMobile ? "middle" : "large"}
               />
             </SegmentedScrollWrapper>
 
@@ -468,7 +491,7 @@ export function OrdersView() {
           </ToolbarRow>
 
           {/* Section: Tables */}
-          {activeSection === 'TABLES' && (
+          {activeSection === "TABLES" && (
             <CardsGrid>
               {tables.map((table) => {
                 const isSelected = selectedTable?.id === table.id;
@@ -486,11 +509,12 @@ export function OrdersView() {
           )}
 
           {/* Section: Takeaway */}
-          {activeSection === 'TAKEAWAY' && (
+          {activeSection === "TAKEAWAY" && (
             <div>
               {takeawayOrders.length === 0 ? (
                 <EmptyNotice>
-                  لا توجد طلبات سفري نشطة حالياً. يمكنك الضغط على "+ طلب جديد" لتسجيل طلب سفري.
+                  لا توجد طلبات سفري نشطة حالياً. يمكنك الضغط على "+ طلب جديد"
+                  لتسجيل طلب سفري.
                 </EmptyNotice>
               ) : (
                 <CardsGrid>
@@ -508,12 +532,10 @@ export function OrdersView() {
           )}
 
           {/* Section: Delivery */}
-          {activeSection === 'DELIVERY' && (
+          {activeSection === "DELIVERY" && (
             <div>
               {deliveryOrders.length === 0 ? (
-                <EmptyNotice>
-                  لا توجد طلبات توصيل نشطة حالياً.
-                </EmptyNotice>
+                <EmptyNotice>لا توجد طلبات توصيل نشطة حالياً.</EmptyNotice>
               ) : (
                 <CardsGrid>
                   {deliveryOrders.map((ord) => (
@@ -530,7 +552,7 @@ export function OrdersView() {
           )}
 
           {/* Section: All Orders */}
-          {activeSection === 'ALL' && (
+          {activeSection === "ALL" && (
             <div>
               {filteredAllOrders.length === 0 ? (
                 <EmptyNotice>لا توجد طلبات مطابقة للبحث.</EmptyNotice>
@@ -589,17 +611,20 @@ export function OrdersView() {
       {/* Floating button on mobile to view bill */}
       {selectedOrder && (
         <MobileBillFloatingBar>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ fontSize: 11, color: '#94A3B8' }}>الطلب المحدد:</span>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <span style={{ fontSize: 11, color: "#94A3B8" }}>
+              الطلب المحدد:
+            </span>
             <span style={{ fontWeight: 700, fontSize: 14 }}>
-              طلب #{selectedOrder.orderNumber} ({selectedOrder.total.toFixed(2)} TL)
+              طلب #{selectedOrder.orderNumber} ({selectedOrder.total.toFixed(2)}{" "}
+              TL)
             </span>
           </div>
           <Button
             type="primary"
             icon={<FileTextOutlined />}
             onClick={() => setMobileDrawerOpen(true)}
-            style={{ backgroundColor: '#F06436', borderColor: '#F06436' }}
+            style={{ backgroundColor: "#F06436", borderColor: "#F06436" }}
           >
             عرض الفاتورة وتسكير الحساب
           </Button>
@@ -617,8 +642,8 @@ export function OrdersView() {
         initialType={modalInitialType}
       />
 
-      {/* Receipt Print Modal */}
-      <ReceiptModal
+      {/* Receipt Print (hidden — opens the browser print dialog directly) */}
+      <ReceiptPrinter
         order={printOrder}
         open={Boolean(printOrder)}
         onClose={() => setPrintOrder(null)}

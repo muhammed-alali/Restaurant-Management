@@ -11,18 +11,29 @@ interface KitchenColumnProps {
   orders: Order[];
   color: string;
   badgeBg: string;
+  isDragOver: boolean;
+  draggedOrderId: string | null;
+  onDragOverColumn: () => void;
+  onDropOrder: (orderId: string) => void;
+  onOrderDragStart: (orderId: string) => void;
+  onOrderDragEnd: () => void;
   onUpdateStatus: (orderId: string, status: OrderStatus) => void;
 }
 
-const ColumnWrapper = styled.div`
+const ColumnWrapper = styled.div<{ $isDragOver: boolean }>`
+  position: relative;
   flex: 1;
   min-width: 320px;
-  background-color: ${({ theme }) => theme.colors.surfaceWhite};
+  background-color: ${({ $isDragOver, theme }) =>
+    $isDragOver ? '#EFF6FF' : theme.colors.surfaceWhite};
   border-radius: 12px;
   border: 1px solid ${({ theme }) => theme.colors.border};
+  outline: ${({ $isDragOver }) => ($isDragOver ? '2px solid #3B82F6' : 'none')};
+  outline-offset: -2px;
   display: flex;
   flex-direction: column;
   max-height: calc(100vh - 160px);
+  transition: background-color 0.15s ease;
 
   @media (max-width: 900px) {
     min-width: 0;
@@ -79,10 +90,30 @@ export function KitchenColumn({
   orders,
   color,
   badgeBg,
+  isDragOver,
+  draggedOrderId,
+  onDragOverColumn,
+  onDropOrder,
+  onOrderDragStart,
+  onOrderDragEnd,
   onUpdateStatus,
 }: KitchenColumnProps) {
   return (
-    <ColumnWrapper>
+    <ColumnWrapper
+      $isDragOver={isDragOver}
+      onDragOver={(event) => {
+        event.preventDefault();
+        event.dataTransfer.dropEffect = 'move';
+        onDragOverColumn();
+      }}
+      onDrop={(event) => {
+        event.preventDefault();
+        const orderId =
+          event.dataTransfer.getData('application/x-kitchen-order') ||
+          event.dataTransfer.getData('text/plain');
+        if (orderId) onDropOrder(orderId);
+      }}
+    >
       <ColumnHeader $borderBottomColor={color}>
         <ColumnTitle>{title}</ColumnTitle>
         <CountBadge $color={color} $bg={badgeBg}>
@@ -92,12 +123,17 @@ export function KitchenColumn({
 
       <CardsScrollContainer>
         {orders.length === 0 ? (
-          <EmptyColumnText>لا توجد طلبات في هذه الحالة</EmptyColumnText>
+          <EmptyColumnText>
+            {isDragOver ? 'أفلت الطلب هنا' : 'لا توجد طلبات في هذه الحالة'}
+          </EmptyColumnText>
         ) : (
           orders.map((order) => (
             <KitchenOrderCard
               key={order.id}
               order={order}
+              isDragging={draggedOrderId === order.id}
+              onOrderDragStart={onOrderDragStart}
+              onOrderDragEnd={onOrderDragEnd}
               onUpdateStatus={onUpdateStatus}
             />
           ))

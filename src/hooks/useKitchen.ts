@@ -1,12 +1,14 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { message } from '@/lib/antdMessage';
+import { playNewOrderSound, primeNotificationSound } from '@/lib/notificationSound';
 import type { Order, OrderStatus } from '@/types';
 
 export function useKitchen() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const knownOrderIdsRef = useRef<Set<string> | null>(null);
 
   const fetchKitchenOrders = useCallback(async (isSilent = false) => {
     try {
@@ -15,7 +17,21 @@ export function useKitchen() {
       const data = await res.json();
 
       if (data.success) {
-        setOrders(data.data);
+        const fetchedOrders = data.data as Order[];
+        const previousIds = knownOrderIdsRef.current;
+
+        // Only alert for orders that appeared after the first load.
+        if (previousIds) {
+          const hasNewOrder = fetchedOrders.some(
+            (order) => order.status === 'NEW' && !previousIds.has(order.id)
+          );
+          if (hasNewOrder) playNewOrderSound();
+        }
+
+        knownOrderIdsRef.current = new Set(
+          fetchedOrders.map((order) => order.id)
+        );
+        setOrders(fetchedOrders);
       }
     } catch {
       if (!isSilent) message.error('خطأ في الاتصال بالخادم');
@@ -26,12 +42,25 @@ export function useKitchen() {
 
   useEffect(() => {
     fetchKitchenOrders();
-    // Poll kitchen orders every 10s for live synchronization
+    // Poll kitchen orders every 5s for live synchronization
     const timer = setInterval(() => {
       fetchKitchenOrders(true);
-    }, 10000);
+    }, 5000);
     return () => clearInterval(timer);
   }, [fetchKitchenOrders]);
+
+  // Unlock audio on the first interaction (browser autoplay policy).
+  useEffect(() => {
+    const unlock = () => primeNotificationSound();
+
+    window.addEventListener('pointerdown', unlock, { once: true });
+    window.addEventListener('keydown', unlock, { once: true });
+
+    return () => {
+      window.removeEventListener('pointerdown', unlock);
+      window.removeEventListener('keydown', unlock);
+    };
+  }, []);
 
   const updateStatus = async (orderId: string, newStatus: OrderStatus) => {
     try {

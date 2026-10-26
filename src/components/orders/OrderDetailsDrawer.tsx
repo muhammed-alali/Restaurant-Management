@@ -10,7 +10,7 @@ import {
   PrinterOutlined,
 } from '@ant-design/icons';
 import { StatusBadge } from '@/components/common/StatusBadge';
-import { ReceiptModal } from '@/components/orders/ReceiptModal';
+import { ReceiptPrinter } from '@/components/orders/ReceiptPrinter';
 import type { Order, OrderStatus } from '@/types';
 
 interface OrderDetailsDrawerProps {
@@ -276,7 +276,7 @@ export function OrderDetailsDrawer({
         <span style={{ color: '#F06436', fontSize: 18 }}>{order.total} TL</span>
       </OrderTotalBanner>
 
-      <ReceiptModal
+      <ReceiptPrinter
         order={order}
         open={receiptOpen}
         onClose={() => setReceiptOpen(false)}

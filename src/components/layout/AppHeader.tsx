@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { useSession } from 'next-auth/react';
-import { UserOutlined, MenuOutlined, CloseOutlined } from '@ant-design/icons';
-import type { UserRole } from '@/types';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { useSession } from "next-auth/react";
+import { UserOutlined, MenuOutlined, CloseOutlined } from "@ant-design/icons";
+import type { UserRole } from "@/types";
 
 interface AppHeaderProps {
   onMobileMenuToggle?: () => void;
@@ -34,7 +34,7 @@ const DesktopMenuButton = styled.button`
 
 const HeaderContainer = styled.header`
   height: 64px;
-  background-color: ${({ theme }) => theme.colors.surfaceWhite};
+  background-color: #f5f7fa;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   display: flex;
   align-items: center;
@@ -94,7 +94,7 @@ const StatusIndicator = styled.div`
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: #16A34A;
+    background-color: #16a34a;
   }
 
   @media (max-width: 640px) {
@@ -153,25 +153,25 @@ const UserRoleBadge = styled.span`
 `;
 
 const roleLabels: Record<UserRole, string> = {
-  ADMIN: 'مدير النظام',
-  STAFF: 'كاشير / صالة',
-  CHEF: 'شيف المطبخ',
-  DELIVERY_STAFF: 'مندوب توصيل',
+  ADMIN: "مدير النظام",
+  STAFF: "كاشير / صالة",
+  CHEF: "شيف المطبخ",
+  DELIVERY_STAFF: "مندوب توصيل",
 };
 
 export function AppHeader(props: AppHeaderProps) {
   const { onMobileMenuToggle, onDesktopToggle, desktopOpen } = props;
   const { data: session } = useSession();
-  const [time, setTime] = useState<string>('');
+  const [time, setTime] = useState<string>("");
 
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
       setTime(
-        now.toLocaleTimeString('ar-EG', {
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
+        now.toLocaleTimeString("ar-EG", {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
           hour12: false,
         }),
       );
@@ -182,7 +182,7 @@ export function AppHeader(props: AppHeaderProps) {
   }, []);
 
   const user = session?.user as { name?: string; role?: UserRole } | undefined;
-  const roleName = user?.role ? roleLabels[user.role] : 'موظف';
+  const roleName = user?.role ? roleLabels[user.role] : "موظف";
 
   return (
     <HeaderContainer>
@@ -190,23 +190,28 @@ export function AppHeader(props: AppHeaderProps) {
         <MobileMenuButton onClick={onMobileMenuToggle} aria-label="فتح القائمة">
           <MenuOutlined />
         </MobileMenuButton>
-        <DesktopMenuButton onClick={onDesktopToggle} aria-label={desktopOpen ? "إغلاق الشريط الجانبي" : "فتح الشريط الجانبي"}>
+        <DesktopMenuButton
+          onClick={onDesktopToggle}
+          aria-label={
+            desktopOpen ? "إغلاق الشريط الجانبي" : "فتح الشريط الجانبي"
+          }
+        >
           {desktopOpen ? <CloseOutlined /> : <MenuOutlined />}
         </DesktopMenuButton>
         <StatusIndicator>
           <span className="dot" />
-          <span>الخادم متصل (POS-Node-01)</span>
+          {/* <span>الخادم متصل (POS-Node-01)</span> */}
         </StatusIndicator>
       </LeftSide>
 
       <RightSide>
-        {time && <ClockText>{time}</ClockText>}
+        {/* {time && <ClockText>{time}</ClockText>} */}
         <UserProfile>
           <UserAvatar>
             <UserOutlined />
           </UserAvatar>
           <UserDetails>
-            <UserName>{user?.name || 'مستخدم'}</UserName>
+            <UserName>{user?.name || "مستخدم"}</UserName>
             <UserRoleBadge>{roleName}</UserRoleBadge>
           </UserDetails>
         </UserProfile>

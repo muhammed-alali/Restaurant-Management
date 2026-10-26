@@ -62,9 +62,9 @@ export const ORDER_TYPE_LABELS: Record<OrderType, string> = {
 
 // Valid status transitions
 export const ORDER_STATUS_TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {
-  NEW: ['PREPARING', 'CANCELLED'],
-  PREPARING: ['READY', 'CANCELLED'],
-  READY: ['COMPLETED', 'CANCELLED'],
+  NEW: ['PREPARING', 'READY', 'CANCELLED'],
+  PREPARING: ['NEW', 'READY', 'CANCELLED'],
+  READY: ['NEW', 'PREPARING', 'COMPLETED', 'CANCELLED'],
   COMPLETED: [],
   CANCELLED: [],
 };

@@ -69,7 +69,7 @@ const statusConfig: Record<
     icon: <CheckCircleOutlined />,
   },
   OCCUPIED: {
-    label: 'مشغولة',
+    label: 'بانتظار الطعام',
     bg: '#EFF6FF',
     color: '#1D4ED8',
     border: '#BFDBFE',

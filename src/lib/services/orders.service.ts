@@ -33,7 +33,7 @@ export const ordersService = {
 
       const hasActiveOrder = table.orders.length > 0;
       if (hasActiveOrder) {
-        throw new Error('الطاولة مشغولة حالياً');
+        throw new Error('الطاولة بانتظار الطعام حالياً');
       }
 
       // If table was marked OCCUPIED but has no active orders, self-heal to AVAILABLE
@@ -165,6 +165,7 @@ export const ordersService = {
     // Sync delivery status
     if (order.type === 'DELIVERY') {
       const deliveryStatusMap: Partial<Record<OrderStatus, string>> = {
+        NEW: 'NEW',
         PREPARING: 'PREPARING',
         READY: 'READY_FOR_DELIVERY',
         CANCELLED: 'CANCELLED',

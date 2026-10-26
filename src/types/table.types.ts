@@ -25,6 +25,6 @@ export interface UpdateTablePayload {
 
 export const TABLE_STATUS_LABELS: Record<TableStatus, string> = {
   AVAILABLE: 'متاحة',
-  OCCUPIED: 'مشغولة',
+  OCCUPIED: 'بانتظار الطعام',
   RESERVED: 'محجوزة',
 };

@@ -1,18 +1,22 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Button, Space, message, Badge } from 'antd';
-import { PlusOutlined, ReloadOutlined, FolderAddOutlined } from '@ant-design/icons';
-import { PageHeader } from '@/components/common/PageHeader';
-import { SearchInput } from '@/components/common/SearchInput';
-import { LoadingState } from '@/components/common/LoadingState';
-import { EmptyState } from '@/components/common/EmptyState';
-import { MenuCard } from '@/components/menu/MenuCard';
-import { MenuItemModal } from '@/components/menu/MenuItemModal';
-import { AddCategoryModal } from '@/components/menu/AddCategoryModal';
-import { useMenu } from '@/hooks/useMenu';
-import type { MenuItem } from '@/types';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { Button, Space, message, Badge } from "antd";
+import {
+  PlusOutlined,
+  ReloadOutlined,
+  FolderAddOutlined,
+} from "@ant-design/icons";
+import { PageHeader } from "@/components/common/PageHeader";
+import { SearchInput } from "@/components/common/SearchInput";
+import { LoadingState } from "@/components/common/LoadingState";
+import { EmptyState } from "@/components/common/EmptyState";
+import { MenuCard } from "@/components/menu/MenuCard";
+import { MenuItemModal } from "@/components/menu/MenuItemModal";
+import { AddCategoryModal } from "@/components/menu/AddCategoryModal";
+import { useMenu } from "@/hooks/useMenu";
+import type { MenuItem } from "@/types";
 
 const CategoriesBar = styled.div`
   display: flex;
@@ -20,9 +24,9 @@ const CategoriesBar = styled.div`
   gap: 10px;
   overflow-x: auto;
   padding: 14px 16px;
-  background: #FFFFFF;
+  background: #ffffff;
   border-radius: 14px;
-  border: 1px solid #E2E8F0;
+  border: 1px solid #e2e8f0;
   margin-bottom: 20px;
   flex-wrap: nowrap;
 
@@ -45,12 +49,12 @@ const CategoryCardBtn = styled.button<{ $active: boolean }>`
   transition: all 0.2s ease;
   user-select: none;
   background-color: ${({ $active, theme }) =>
-    $active ? theme.colors.primaryOrange : '#F1F5F9'};
-  color: ${({ $active }) => ($active ? '#FFFFFF' : '#334155')};
+    $active ? theme.colors.primaryOrange : "#F1F5F9"};
+  color: ${({ $active }) => ($active ? "#FFFFFF" : "#334155")};
 
   &:hover {
     background-color: ${({ $active, theme }) =>
-      $active ? theme.colors.primaryOrange : '#E2E8F0'};
+      $active ? theme.colors.primaryOrange : "#E2E8F0"};
     transform: translateY(-1px);
   }
 
@@ -113,7 +117,7 @@ export function MenuView() {
   return (
     <div>
       <PageHeader
-        title="قائمة الطعام (المنيو الإلكتروني)"
+        title="قائمة الطعام"
         subtitle="تصفح وإدارة الأصناف، الفئات، الأسعار، وتوفر الوجبات بكروت شاشات اللمس"
         actions={
           <Space>
@@ -130,7 +134,11 @@ export function MenuView() {
               type="primary"
               icon={<PlusOutlined />}
               onClick={handleAddNew}
-              style={{ backgroundColor: '#F06436', borderColor: '#F06436', fontWeight: 600 }}
+              style={{
+                backgroundColor: "#F06436",
+                borderColor: "#F06436",
+                fontWeight: 600,
+              }}
             >
               + إضافة أكلة
             </Button>
@@ -141,15 +149,15 @@ export function MenuView() {
       {/* Horizontal Electronic Menu Categories Bar */}
       <CategoriesBar>
         <CategoryCardBtn
-          $active={selectedCategory === 'ALL'}
-          onClick={() => setSelectedCategory('ALL')}
+          $active={selectedCategory === "ALL"}
+          onClick={() => setSelectedCategory("ALL")}
         >
           <span>🍽️ الكل</span>
           <span
             style={{
-              background: selectedCategory === 'ALL' ? '#FFFFFF' : '#CBD5E1',
-              color: selectedCategory === 'ALL' ? '#F06436' : '#1E293B',
-              padding: '2px 8px',
+              background: selectedCategory === "ALL" ? "#FFFFFF" : "#CBD5E1",
+              color: selectedCategory === "ALL" ? "#F06436" : "#1E293B",
+              padding: "2px 8px",
               borderRadius: 12,
               fontSize: 12,
             }}
@@ -170,9 +178,9 @@ export function MenuView() {
               <span>{c.name}</span>
               <span
                 style={{
-                  background: isSelected ? '#FFFFFF' : '#CBD5E1',
-                  color: isSelected ? '#F06436' : '#1E293B',
-                  padding: '2px 8px',
+                  background: isSelected ? "#FFFFFF" : "#CBD5E1",
+                  color: isSelected ? "#F06436" : "#1E293B",
+                  padding: "2px 8px",
                   borderRadius: 12,
                   fontSize: 12,
                 }}
@@ -185,7 +193,7 @@ export function MenuView() {
       </CategoriesBar>
 
       <FilterAndSearchRow>
-        <span style={{ fontSize: 14, color: '#64748B', fontWeight: 600 }}>
+        <span style={{ fontSize: 14, color: "#64748B", fontWeight: 600 }}>
           عرض {items.length} صنف غذائي
         </span>
         <SearchInput

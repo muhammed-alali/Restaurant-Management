@@ -98,7 +98,7 @@ export function TablesView() {
       value: 'AVAILABLE',
     },
     {
-      label: `مشغولة (${allTables.filter((t) => t.status === 'OCCUPIED').length})`,
+      label: `بانتظار الطعام (${allTables.filter((t) => t.status === 'OCCUPIED').length})`,
       value: 'OCCUPIED',
     },
     {

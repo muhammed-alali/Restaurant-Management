@@ -192,7 +192,7 @@ export function BikeCard({
         {hasOrder && activeDelivery ? (
           <>
             <span style={{ fontWeight: 800, color: '#F06436', fontSize: 15 }}>
-              {activeDelivery.orderTotal.toFixed(2)} ر.س
+              {activeDelivery.orderTotal.toFixed(2)} TL
             </span>
             <Button
               size="small"

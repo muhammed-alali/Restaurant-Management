@@ -76,7 +76,7 @@ export function DeliveriesTable({
       dataIndex: 'orderTotal',
       key: 'orderTotal',
       render: (total: number) => (
-        <span style={{ fontWeight: 700, color: '#F06436' }}>{total} ر.س</span>
+        <span style={{ fontWeight: 700, color: '#F06436' }}>{total} TL</span>
       ),
       width: 110,
     },

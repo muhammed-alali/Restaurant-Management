@@ -115,7 +115,7 @@ export function MenuCard({ item, onEdit, onToggleAvailability }: MenuCardProps) 
       <CardContent>
         <TitlePriceRow>
           <ItemName>{item.name}</ItemName>
-          <PriceTag>{item.price} ر.س</PriceTag>
+          <PriceTag>{item.price} TL</PriceTag>
         </TitlePriceRow>
 
         <Description>{item.description || 'وجبة طازجة وشهية'}</Description>

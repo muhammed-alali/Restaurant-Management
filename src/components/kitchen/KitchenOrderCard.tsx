@@ -8,15 +8,19 @@ import {
   CheckCircleOutlined,
   SyncOutlined,
   CheckOutlined,
+  HolderOutlined,
 } from '@ant-design/icons';
 import type { Order, OrderStatus } from '@/types';
 
 interface KitchenOrderCardProps {
   order: Order;
+  isDragging: boolean;
+  onOrderDragStart: (orderId: string) => void;
+  onOrderDragEnd: () => void;
   onUpdateStatus: (orderId: string, status: OrderStatus) => void;
 }
 
-const CardWrapper = styled.div<{ $status: OrderStatus }>`
+const CardWrapper = styled.div<{ $status: OrderStatus; $isDragging: boolean }>`
   background-color: #FFFFFF;
   border-radius: 12px;
   border: 1px solid
@@ -31,6 +35,17 @@ const CardWrapper = styled.div<{ $status: OrderStatus }>`
   display: flex;
   flex-direction: column;
   gap: 12px;
+  cursor: grab;
+  opacity: ${({ $isDragging }) => ($isDragging ? 0.45 : 1)};
+  transition: opacity 0.15s ease, box-shadow 0.15s ease;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  &:hover {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  }
 `;
 
 const CardHeader = styled.div`
@@ -103,7 +118,13 @@ const ActionArea = styled.div`
   border-top: 1px solid #F1F5F9;
 `;
 
-export function KitchenOrderCard({ order, onUpdateStatus }: KitchenOrderCardProps) {
+export function KitchenOrderCard({
+  order,
+  isDragging,
+  onOrderDragStart,
+  onOrderDragEnd,
+  onUpdateStatus,
+}: KitchenOrderCardProps) {
   const typeLabel =
     order.type === 'DINE_IN'
       ? `طاولة ${order.tableNumber ?? '-'}`
@@ -117,9 +138,22 @@ export function KitchenOrderCard({ order, onUpdateStatus }: KitchenOrderCardProp
   });
 
   return (
-    <CardWrapper $status={order.status}>
+    <CardWrapper
+      $status={order.status}
+      $isDragging={isDragging}
+      draggable
+      title="اسحب الطلب وأفلته في القسم المطلوب"
+      onDragStart={(event) => {
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData('application/x-kitchen-order', order.id);
+        event.dataTransfer.setData('text/plain', order.id);
+        onOrderDragStart(order.id);
+      }}
+      onDragEnd={onOrderDragEnd}
+    >
       <CardHeader>
         <OrderIdGroup>
+          <HolderOutlined style={{ color: '#94A3B8', fontSize: 15 }} />
           <OrderNumber>#{order.orderNumber}</OrderNumber>
           <Tag color={order.type === 'DINE_IN' ? 'blue' : 'orange'}>{typeLabel}</Tag>
         </OrderIdGroup>

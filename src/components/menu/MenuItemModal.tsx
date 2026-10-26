@@ -118,7 +118,7 @@ export function MenuItemModal({
 
         <Form.Item
           name="price"
-          label="السعر (ر.س)"
+          label="السعر (TL)"
           rules={[{ required: true, message: 'يرجى تحديد السعر' }]}
         >
           <InputNumber min={1} max={1000} style={{ width: '100%' }} />
