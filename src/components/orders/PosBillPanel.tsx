@@ -44,6 +44,10 @@ const PanelWrapper = styled.div`
     height: auto;
     min-height: auto;
   }
+
+  @media (max-width: 576px) {
+    border-radius: 12px;
+  }
 `;
 
 const PanelHeader = styled.div`
@@ -53,6 +57,10 @@ const PanelHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media (max-width: 576px) {
+    padding: 14px 16px;
+  }
 `;
 
 const OrderIdTitle = styled.div`
@@ -83,6 +91,10 @@ const ItemsScrollArea = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+  @media (max-width: 576px) {
+    padding: 12px 16px;
+  }
 `;
 
 const EmptyBillPlaceholder = styled.div`
@@ -177,6 +189,10 @@ const FinancialSummary = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+
+  @media (max-width: 576px) {
+    padding: 12px 16px;
+  }
 `;
 
 const SummaryRow = styled.div`
@@ -209,6 +225,10 @@ const ActionButtonsContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+  @media (max-width: 576px) {
+    padding: 12px 16px 14px;
+  }
 `;
 
 export function PosBillPanel({

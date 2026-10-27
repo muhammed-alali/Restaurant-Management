@@ -33,5 +33,12 @@
     "href": "/deliveries",
     "icon": "CarOutlined",
     "allowedRoles": ["ADMIN", "STAFF", "DELIVERY_STAFF"]
+  },
+  {
+    "id": "users",
+    "label": "المستخدمين",
+    "href": "/users",
+    "icon": "TeamOutlined",
+    "allowedRoles": ["ADMIN"]
   }
 ]

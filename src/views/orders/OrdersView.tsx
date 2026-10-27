@@ -609,7 +609,7 @@ export function OrdersView() {
       </Drawer>
 
       {/* Floating button on mobile to view bill */}
-      {selectedOrder && (
+      {/* {selectedOrder && (
         <MobileBillFloatingBar>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <span style={{ fontSize: 11, color: "#94A3B8" }}>
@@ -629,7 +629,7 @@ export function OrdersView() {
             عرض الفاتورة وتسكير الحساب
           </Button>
         </MobileBillFloatingBar>
-      )}
+      )} */}
 
       {/* New Order Modal */}
       <NewOrderModal

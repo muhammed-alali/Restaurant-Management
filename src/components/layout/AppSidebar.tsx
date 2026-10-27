@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import styled from "styled-components";
 import { Drawer, message } from "antd";
@@ -16,6 +16,7 @@ import {
   SettingOutlined,
   LogoutOutlined,
   CloseOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import navigationData from "@/data/navigation.json";
 import type { UserRole } from "@/types";
@@ -208,6 +209,7 @@ export function AppSidebar({
 
 
   const pathname = usePathname();
+  const router = useRouter();
   const { data: session } = useSession();
   const userRole = (session?.user as { role?: UserRole })?.role;
 
@@ -265,7 +267,10 @@ export function AppSidebar({
       <BottomSection>
         <BottomButton
           type="button"
-          onClick={() => message.info("إعدادات المطعم والنظام قيد التطوير")}
+          onClick={() => {
+            if (isMobile && onMobileClose) onMobileClose();
+            router.push('/settings');
+          }}
         >
           <SettingOutlined />
           <span>الإعدادات</span>

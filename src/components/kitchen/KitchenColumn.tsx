@@ -35,10 +35,16 @@ const ColumnWrapper = styled.div<{ $isDragOver: boolean }>`
   max-height: calc(100vh - 160px);
   transition: background-color 0.15s ease;
 
-  @media (max-width: 900px) {
+  @media (max-width: 991px) {
     min-width: 0;
     width: 100%;
     max-height: none;
+    flex: 1 1 100%;
+  }
+
+  @media (min-width: 992px) {
+    flex: 1 1 0%;
+    min-width: 0;
   }
 `;
 

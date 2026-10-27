@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 interface PageHeaderProps {
   title: string;
@@ -57,14 +57,16 @@ const ActionsGroup = styled.div`
 
   @media (max-width: 640px) {
     width: 100%;
-    
+
     .ant-space {
       width: 100%;
       display: flex !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
       gap: 8px !important;
 
       .ant-space-item {
-        flex: 1;
+        width: 100%;
 
         button {
           width: 100%;
@@ -79,7 +81,12 @@ const ActionsGroup = styled.div`
   }
 `;
 
-export function PageHeader({ title, subtitle, badge, actions }: PageHeaderProps) {
+export function PageHeader({
+  title,
+  subtitle,
+  badge,
+  actions,
+}: PageHeaderProps) {
   return (
     <HeaderWrapper>
       <div>

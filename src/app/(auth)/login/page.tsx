@@ -345,7 +345,7 @@ export default function LoginPage() {
             <span className="dot" />
             {/* <span>الخادم متصل (POS-Node-01)</span> */}
           </StatusDot>
-          <span>{clock}</span>
+          {/* <span>{clock}</span> */}
         </FooterStatus>
       </LoginCard>
     </PageContainer>

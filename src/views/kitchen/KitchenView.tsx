@@ -35,28 +35,27 @@ const MobileTabWrapper = styled.div`
     white-space: nowrap;
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 991px) {
     display: block;
   }
 `;
 
-const BoardContainer = styled.div<{ $isMobileSingle?: boolean }>`
+const BoardContainer = styled.div`
   display: flex;
   gap: 20px;
   overflow-x: auto;
   padding-bottom: 12px;
+  align-items: flex-start;
 
-  @media (max-width: 900px) {
-    ${({ $isMobileSingle }) =>
-      $isMobileSingle
-        ? `
-      flex-direction: column;
-      overflow-x: visible;
-      gap: 16px;
-    `
-        : `
-      overflow-x: auto;
-    `}
+  @media (max-width: 991px) {
+    flex-direction: column;
+    overflow-x: visible;
+    gap: 16px;
+  }
+
+  @media (min-width: 992px) {
+    overflow-x: hidden;
+    flex-wrap: nowrap;
   }
 `;
 
@@ -193,7 +192,7 @@ export function KitchenView() {
         />
       </MobileTabWrapper>
 
-      <BoardContainer $isMobileSingle={activeTab !== "ALL"}>
+      <BoardContainer>
         {(activeTab === "ALL" || activeTab === "NEW") && (
           <KitchenColumn
             title="طلبات جديدة"
