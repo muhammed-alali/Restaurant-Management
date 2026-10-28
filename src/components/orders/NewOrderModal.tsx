@@ -34,6 +34,7 @@ interface NewOrderModalProps {
   tables: RestaurantTable[];
   initialTableId?: string;
   initialType?: OrderType;
+  initialBikeNumber?: number;
 }
 
 interface CartItem {
@@ -266,6 +267,7 @@ export function NewOrderModal({
   tables,
   initialTableId,
   initialType = "DINE_IN",
+  initialBikeNumber,
 }: NewOrderModalProps) {
   const [orderType, setOrderType] = useState<OrderType>(initialType);
   const [selectedTableId, setSelectedTableId] = useState<string | undefined>(
@@ -281,20 +283,37 @@ export function NewOrderModal({
   const [deliveryName, setDeliveryName] = useState("");
   const [deliveryPhone, setDeliveryPhone] = useState("");
   const [deliveryAddress, setDeliveryAddress] = useState("");
-  const [bikeNumber, setBikeNumber] = useState<number>(1);
+  const [bikeNumber, setBikeNumber] = useState<number>(initialBikeNumber || 1);
 
   useEffect(() => {
     if (open) {
       if (initialTableId) {
         setSelectedTableId(initialTableId);
         setOrderType("DINE_IN");
-      } else {
+      } else if (initialType) {
         setOrderType(initialType);
+        setSelectedTableId(undefined);
+      } else {
+        setOrderType("DINE_IN");
+        setSelectedTableId(undefined);
       }
       setCart([]);
       setGeneralNotes("");
+      setDeliveryName("");
+      setDeliveryPhone("");
+      setDeliveryAddress("");
+      setBikeNumber(initialBikeNumber || 1);
+    } else {
+      setSelectedTableId(undefined);
+      setOrderType("DINE_IN");
+      setCart([]);
+      setGeneralNotes("");
+      setDeliveryName("");
+      setDeliveryPhone("");
+      setDeliveryAddress("");
+      setBikeNumber(1);
     }
-  }, [open, initialTableId, initialType]);
+  }, [open, initialTableId, initialType, initialBikeNumber]);
 
   const availableItems = menuItems.filter((i) => i.isAvailable);
   const categories = Array.from(
@@ -493,6 +512,8 @@ export function NewOrderModal({
                 value={selectedTableId}
                 onChange={setSelectedTableId}
                 style={{ width: "100%" }}
+                disabled={Boolean(initialTableId)}
+                getPopupContainer={(trigger) => trigger.parentElement || document.body}
               >
                 {tables.map((t) => (
                   <Select.Option

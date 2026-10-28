@@ -1,6 +1,6 @@
 'use client';
 import { useMediaQuery } from 'react-responsive';
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, Space, message, Drawer, Segmented } from 'antd';
 import {
@@ -21,6 +21,7 @@ import { useOrders } from '@/hooks/useOrders';
 import { useMenu } from '@/hooks/useMenu';
 import { useTables } from '@/hooks/useTables';
 import type { Delivery, DeliveryStatus, Order } from '@/types';
+import { DELIVERY_STATUS_LABELS } from '@/types';
 
 const TOTAL_BIKES = 8;
 
@@ -133,6 +134,16 @@ export function DeliveriesView() {
   const [printOrder, setPrintOrder] = useState<Order | null>(null);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const isMobile = useMediaQuery({ maxWidth: 1024 });
+
+  // Sync selected delivery with latest data from deliveries list
+  useEffect(() => {
+    if (selectedDelivery) {
+      const updated = allDeliveries.find((d) => d.id === selectedDelivery.id);
+      if (updated && updated !== selectedDelivery) {
+        setSelectedDelivery(updated);
+      }
+    }
+  }, [allDeliveries, selectedDelivery?.id]);
   // Map bike number to active delivery
   const bikeDeliveryMap = useMemo(() => {
     const map = new Map<number, Delivery>();
@@ -164,11 +175,15 @@ export function DeliveriesView() {
   const handleUpdateStatus = async (del: Delivery, newStatus: DeliveryStatus) => {
     const success = await updateDeliveryStatus(del.id, newStatus);
     if (success) {
-      message.success(`تم تحديث حالة التوصيل إلى "${newStatus}" بنجاح`);
-      if (selectedDelivery && selectedDelivery.id === del.id) {
-        setSelectedDelivery({ ...selectedDelivery, status: newStatus });
-      }
-      refresh();
+      const statusLabel = DELIVERY_STATUS_LABELS[newStatus] || newStatus;
+      message.success(`تم تحديث حالة التوصيل إلى "${statusLabel}" بنجاح`);
+      await refresh();
+      // Sync with latest
+      setSelectedDelivery((prev) => {
+        if (!prev || prev.id !== del.id) return prev;
+        const updated = allDeliveries.find((d) => d.id === del.id);
+        return updated || { ...prev, status: newStatus };
+      });
     }
   };
 
@@ -327,10 +342,58 @@ export function DeliveriesView() {
       <NewOrderModal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
-        onSubmit={createOrder}
+        onSubmit={async (data) => {
+          const result = await createOrder(data);
+          if (result) {
+            try {
+              const resDel = await fetch('/api/deliveries', { cache: 'no-store' });
+              const jsonDel = await resDel.json();
+              if (jsonDel.success) {
+                const list = jsonDel.data as Delivery[];
+                const found =
+                  list.find((d) => d.orderId === result.id) ||
+                  list.find(
+                    (d) =>
+                      d.bikeNumber === modalBikeNumber &&
+                      d.status !== 'DELIVERED' &&
+                      d.status !== 'CANCELLED',
+                  );
+                if (found) {
+                  setSelectedBikeNumber(modalBikeNumber);
+                  setSelectedDelivery(found);
+                  if (isMobile) {
+                    setMobileDrawerOpen(true);
+                  }
+                } else {
+                  setSelectedBikeNumber(modalBikeNumber);
+                  setSelectedDelivery(null);
+                  if (isMobile) {
+                    setMobileDrawerOpen(true);
+                  }
+                }
+              } else {
+                setSelectedBikeNumber(modalBikeNumber);
+                setSelectedDelivery(null);
+                if (isMobile) {
+                  setMobileDrawerOpen(true);
+                }
+              }
+            } catch {
+              setSelectedBikeNumber(modalBikeNumber);
+              setSelectedDelivery(null);
+              if (isMobile) {
+                setMobileDrawerOpen(true);
+              }
+            }
+            await refresh();
+            return true;
+          }
+          return false;
+        }}
         menuItems={menuItems}
         tables={tables}
         initialType="DELIVERY"
+        initialBikeNumber={modalBikeNumber}
       />
 
       {/* Receipt Modal */}

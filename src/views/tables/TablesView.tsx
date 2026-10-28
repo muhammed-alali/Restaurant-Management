@@ -114,6 +114,10 @@ export function TablesView() {
     );
     if (order) {
       setActiveOrderDrawer(order);
+      return;
+    }
+    if (table.status === 'OCCUPIED') {
+      handleNewOrderForTable(table);
     }
   };
 
@@ -174,7 +178,7 @@ export function TablesView() {
             <TableCard
               key={table.id}
               table={table}
-              onSelect={handleSelectOccupiedTable}
+              onSelect={table.status === 'AVAILABLE' ? handleNewOrderForTable : handleSelectOccupiedTable}
               onNewOrder={handleNewOrderForTable}
             />
           ))}
@@ -209,6 +213,8 @@ export function TablesView() {
         }}
         menuItems={menuItems}
         tables={selectedTableForOrder ? [selectedTableForOrder] : allTables}
+        initialTableId={selectedTableForOrder?.id}
+        initialType="DINE_IN"
       />
 
       <OrderDetailsDrawer
